@@ -1,6 +1,6 @@
 package com.flamexander.spring.security.cookbook.dao.services;
 
-import com.flamexander.spring.security.cookbook.dao.entities.Role;
+import com.flamexander.spring.security.cookbook.dao.entities.Privilege;
 import com.flamexander.spring.security.cookbook.dao.entities.User;
 import com.flamexander.spring.security.cookbook.dao.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +29,10 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapPrivilegesToAuthorities(user.getPrivileges()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    private Collection<? extends GrantedAuthority> mapPrivilegesToAuthorities(Collection<Privilege> privileges) {
+        return privileges.stream().map(privilege -> new SimpleGrantedAuthority(privilege.getName())).collect(Collectors.toList());
     }
 }

@@ -19,7 +19,7 @@ public class DemoController {
     }
 
     @GetMapping("/unsecured")
-    public String usecuredPage() {
+    public String unsecuredPage() {
         return "unsecured";
     }
 
@@ -29,7 +29,6 @@ public class DemoController {
     }
 
     @GetMapping("/admin")
-    // @PreAuthorize("hasRole('ADMIN')")
     public String adminPage() {
         return "admin";
     }
